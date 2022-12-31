@@ -1,12 +1,12 @@
 node {
 	
-    def application = "devopsProj2"
+    def application = "devopsexample"
     
     //Its mandatory to change the Docker Hub Account ID after this Repo is forked by an other person
     def dockerhubaccountid = "vasuvespag"
 	
     // reference to maven
-    // ** NOTE: This 'maven-3.5.2' Maven tool must be configured in the Jenkins Global Configuration.   
+    // ** NOTE: This 'maven-3.8.7' Maven tool must be configured in the Jenkins Global Configuration.   
     def mvnHome = tool 'maven-3.8.7'
 
     // holds reference to docker image
@@ -16,7 +16,7 @@ node {
     
     stage('Clone Repo') { 
       // Get some code from a GitHub repository
-      git url:'https://github.com/vasuvespag/PGDO_Proj3.git',branch:'main' //update your forked repo
+      git url:'https://github.com/vdharmaraj/PGDO_Proj3.git',branch:'main' //update your forked repo
       // Get the Maven tool.
       // ** NOTE: This 'maven-3.8.7' Maven tool must be configured
       // **       in the global configuration.           
@@ -44,14 +44,14 @@ node {
    stage('Remove running container with old code'){
 	   //remove the container which is already running, when running 1st time named container will not be available so we are usign 'True'
 	   //added -a option to remove stopped container also
-	  sh "docker rm -f \$(docker ps -a -f name=devopsProj2 -q) || true"   
+	  sh "docker rm -f \$(docker ps -a -f name=devopsexample -q) || true"   
 	       
     }
 	
     stage('Deploy Docker Image with new changes'){
 	        
 	    //start container with the remote image
-	  sh "docker run --name devopsProj2 -d -p 2222:2222 ${dockerhubaccountid}/${application}:${env.BUILD_NUMBER}"  
+	  sh "docker run --name devopsexample -d -p 2222:2222 ${dockerhubaccountid}/${application}:${env.BUILD_NUMBER}"  
 	  
     }
 	
